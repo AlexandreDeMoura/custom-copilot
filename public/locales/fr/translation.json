@@ -1,0 +1,98 @@
+{
+  "app": {
+    "title": "Chat IA",
+    "newChat": "Nouvelle conversation",
+    "signOut": "Déconnexion",
+    "apiKeySetup": "Configuration de la clé API"
+  },
+  "settings": {
+    "title": "Paramètres",
+    "language": "Langue",
+    "theme": "Thème",
+    "light": "Clair",
+    "dark": "Sombre"
+  },
+  "home": {
+    "titleBold": "Salut, je suis Chat IA.",
+    "titleNormal": "Votre assistant IA et compagnon pour toute occasion.",
+    "draftEmail": "Rédiger un e-mail",
+    "draftEmailDesc": "Générer un e-mail pour toute occasion dont vous avez besoin.",
+    "writeEssay": "Écrire un essai",
+    "writeEssayDesc": "Générer un essai pour toute occasion dont vous avez besoin.",
+    "planning": "Planification",
+    "planningDesc": "Planifier pour toute occasion, des vacances à la famille.",
+    "assistant": "Assistant",
+    "assistantDesc": "Devenir votre assistant personnel. Vous aider."
+  },
+  "chat": {
+    "placeholder": "Tapez un message...",
+    "send": "Envoyer",
+    "submit": "Envoyer"
+  },
+  "sidebar": {
+    "today": "Aujourd'hui",
+    "yesterday": "Hier",
+    "last7Days": "7 derniers jours",
+    "last30Days": "30 derniers jours",
+    "older": "Plus ancien",
+    "createAccount": {
+      "title": "Créons un compte",
+      "description": "Sauvegardez et partagez vos conversations, et personnalisez votre expérience.",
+      "signIn": "Se connecter",
+      "create": "Créer un compte"
+    }
+  },
+  "date": {
+    "monthYear": "{{month}} {{year}}"
+  },
+  "months": {
+    "0": "Janvier",
+    "1": "Février",
+    "2": "Mars",
+    "3": "Avril",
+    "4": "Mai",
+    "5": "Juin",
+    "6": "Juillet",
+    "7": "Août",
+    "8": "Septembre",
+    "9": "Octobre",
+    "10": "Novembre",
+    "11": "Décembre"
+  },
+  "theme": {
+    "title": "Thème",
+    "light": "Clair",
+    "dark": "Sombre"
+  },
+  "api_settings": {
+    "title": "Entrez votre clé API OpenAI",
+    "description": "Vous avez besoin d'une clé API OpenAI pour utiliser cette application. Votre clé API sera stockée localement sur votre navigateur.",
+    "placeholder": "sk-xxxxxxxxxxxxxxxxxxxxxxxx",
+    "getApiKey": "Allez sur OpenAI pour obtenir votre clé API",
+    "save": "Enregistrer",
+    "cancel": "Annuler",
+    "faqs": "FAQ",
+    "faq": {
+      "apiKeyNotWorking": {
+        "question": "La clé API ne fonctionne pas ?",
+        "answer": "Assurez-vous d'avoir saisi la bonne clé API. Si le problème persiste, vérifiez votre compte OpenAI pour d'éventuelles restrictions ou problèmes de facturation."
+      },
+      "apiKeyHandling": {
+        "question": "Comment la clé API est-elle gérée ?",
+        "answer": "Votre clé API est stockée localement dans votre navigateur et n'est jamais envoyée à nos serveurs. Elle est utilisée uniquement pour communiquer directement avec les services d'OpenAI."
+      },
+      "chatGptPlusRequired": {
+        "question": "Ai-je besoin de ChatGPT Plus pour obtenir une clé API ?",
+        "answer": "Non, ChatGPT Plus n'est pas nécessaire. Vous avez seulement besoin d'un compte OpenAI standard pour obtenir une clé API."
+      },
+      "apiKeyPayment": {
+        "question": "Dois-je payer pour une clé API d'OpenAI ?",
+        "answer": "Bien que la clé API elle-même soit gratuite, l'utilisation de l'API d'OpenAI est facturée en fonction du nombre de jetons traités. Consultez la page de tarification d'OpenAI pour les tarifs actuels."
+      },
+      "licenseVsApiKey": {
+        "question": "Clé de licence vs. clé API",
+        "answer": "La clé API est différente d'une clé de licence. La clé API est utilisée pour authentifier les requêtes aux services d'OpenAI, tandis qu'une clé de licence (le cas échéant) serait pour notre application."
+      }
+    }
+  }
+}
