@@ -28,3 +28,14 @@ export async function createMessage(message: NewMessage) {
     return data as Message
 }
 
+export async function updateMessage(id: string, updates: Partial<Message>) {
+    const { data, error } = await supabase
+        .from('messages')
+        .update(updates)
+        .eq('id', id)
+        .select()
+        .single()
+
+    if (error) throw error
+    return data as Message
+}

@@ -1,8 +1,9 @@
 "use client";
 
 import { useEffect, useRef } from 'react';
+import { use } from 'react'; // Add this import
 import { useRouter } from 'next/navigation';
-import { getMessages, createMessage } from '@/db/messages';
+import { getMessages, createMessage, updateMessage } from '@/db/messages';
 import { getConversation } from '@/db/conversations';
 import { useState } from 'react';
 import { Conversation, Message } from '../../../../supabase/types';
@@ -11,7 +12,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { ChatMessage } from '@/components/chat/ChatMessage';
 import { Sidebar } from '@/components/sidebar/Sidebar';
 
-export default function ConversationPage({ params }: { params: { id: string } }) {
+export default function ConversationPage({ params }: { params: Promise<{ id: string }> }) {
+    const resolvedParams = use(params); // Unwrap the params promise
     const [conversation, setConversation] = useState<Conversation | null>(null);
     const [messages, setMessages] = useState<Message[]>([]);
     const [input, setInput] = useState('');
@@ -21,7 +23,7 @@ export default function ConversationPage({ params }: { params: { id: string } })
 
     useEffect(() => {
         loadConversation();
-    }, [params.id]);
+    }, [resolvedParams.id]); // Update dependency
 
     useEffect(() => {
         scrollToBottom();
@@ -33,13 +35,13 @@ export default function ConversationPage({ params }: { params: { id: string } })
 
     const loadConversation = async () => {
         try {
-            const conv = await getConversation(params.id);
+            const conv = await getConversation(resolvedParams.id); // Use resolvedParams
             if (!conv) {
                 router.push('/');
                 return;
             }
             setConversation(conv);
-            const msgs = await getMessages(params.id);
+            const msgs = await getMessages(resolvedParams.id); // Use resolvedParams
             setMessages(msgs);
         } catch (error) {
             console.error('Error loading conversation:', error);
@@ -61,14 +63,52 @@ export default function ConversationPage({ params }: { params: { id: string } })
             setMessages(prev => [...prev, userMessage]);
             setInput('');
 
-            // Create AI response
+            // Prepare AI message with empty content
             const aiMessage = await createMessage({
                 conversation_id: conversation.id,
-                content: "This is a placeholder AI response",
+                content: "",
                 role: 'assistant'
             });
             setMessages(prev => [...prev, aiMessage]);
-        } catch (error) {
+
+            // Fetch AI response as a stream
+            const response = await fetch('/api/chat/openai', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    messages: [...messages, userMessage],
+                    model: 'gpt-4',
+                    temperature: 0.7,
+                }),
+            });
+
+            if (!response.ok || !response.body) {
+                throw new Error('Failed to fetch AI response');
+            }
+
+            const reader = response.body.getReader();
+            const decoder = new TextDecoder('utf-8');
+            let done = false;
+            let aiContent = '';
+
+            while (!done) {
+                const { value, done: doneReading } = await reader.read();
+                done = doneReading;
+                if (value) {
+                    const chunk = decoder.decode(value, { stream: true });
+                    aiContent += chunk;
+                    // Update the AI message with the new content
+                    setMessages(prevMessages => prevMessages.map(msg =>
+                        msg.id === aiMessage.id ? { ...msg, content: aiContent } : msg
+                    ));
+                }
+            }
+
+            // Update the AI message in the database with the complete response
+            await updateMessage(aiMessage.id, { content: aiContent });
+        } catch (error: any) {
             console.error('Error sending message:', error);
         } finally {
             setIsLoading(false);
