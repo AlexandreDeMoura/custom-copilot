@@ -1,4 +1,5 @@
-import { IconRobot } from '@tabler/icons-react'; // or any other icon library you prefer
+import { IconRobot } from '@tabler/icons-react';
+import ReactMarkdown from 'react-markdown';
 import clsx from 'clsx';
 
 interface ChatMessageProps {
@@ -22,7 +23,7 @@ export function ChatMessage({ message }: ChatMessageProps) {
                     ? 'bg-foreground-300 dark:bg-foreground-500 rounded-3xl'
                     : ''
             )}>
-                {message.content}
+                <ReactMarkdown>{message.content}</ReactMarkdown>
             </div>
         </div>
     )

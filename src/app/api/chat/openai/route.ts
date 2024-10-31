@@ -29,7 +29,7 @@ export async function POST(req: Request) {
         const completion = await openai.chat.completions.create({
             model: model,
             messages: [
-                { role: "system", content: "You are a helpful assistant." },
+                { role: "system", content: "Structure your responses in markdown. Break line between sentences and extra new lines between paragraphs or before headers and lists." },
                 ...messages.map((message) => ({
                     role: message.role,
                     content: message.content
