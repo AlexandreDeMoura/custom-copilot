@@ -57,12 +57,12 @@ export function Sidebar({ onConversationClick }: SidebarProps) {
     };
 
     return (
-        <aside className="w-64 bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 p-4">
+        <aside className="w-64 bg-background-secondary dark:bg-background-secondary-dark p-4">
             <div className="flex flex-col h-full">
                 {/* Theme Toggle */}
                 <button
                     onClick={toggleTheme}
-                    className="p-2 mb-4 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700"
+                    className="p-2 mb-4 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 text-foreground-100 dark:text-foreground-dark-100"
                 >
                     {theme === 'light' ? (
                         <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -83,7 +83,7 @@ export function Sidebar({ onConversationClick }: SidebarProps) {
                         type="password"
                         name="apiKey"
                         placeholder="Enter OpenAI API Key"
-                        className="w-full p-2 mb-2 text-sm border rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+                        className="w-full p-2 mb-2 text-sm border rounded-lg bg-white dark:bg-gray-700 dark:border-gray-600 text-foreground-100 dark:text-foreground-dark-100"
                     />
                     <button
                         type="submit"
@@ -93,8 +93,8 @@ export function Sidebar({ onConversationClick }: SidebarProps) {
                     </button>
                     {formState.message && (
                         <p className={`mt-2 text-sm ${formState.status === 'error' ? 'text-red-500' :
-                                formState.status === 'success' ? 'text-green-500' :
-                                    'text-gray-500'
+                            formState.status === 'success' ? 'text-green-500' :
+                                'text-gray-500'
                             }`}>
                             {formState.message}
                         </p>
@@ -105,7 +105,7 @@ export function Sidebar({ onConversationClick }: SidebarProps) {
                 <div className="space-y-2">
                     <div className="flex items-center space-x-2 p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg cursor-pointer">
                         <div className="w-6 h-6 bg-green-500 rounded-full"></div>
-                        <span className="dark:text-white">ChatGPT</span>
+                        <span className="text-foreground-100 dark:text-foreground-dark-100">ChatGPT</span>
                     </div>
                     <div className="flex items-center space-x-2 p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg cursor-pointer">
                         <div className="w-6 h-6 bg-blue-500 rounded-full"></div>
@@ -115,12 +115,12 @@ export function Sidebar({ onConversationClick }: SidebarProps) {
 
                 {/* History Section */}
                 <div className="mt-6 flex-1 overflow-y-auto">
-                    <h3 className="text-sm font-semibold mb-2 dark:text-white">Conversations</h3>
+                    <h3 className="text-sm font-semibold mb-2 text-foreground-100 dark:text-foreground-dark-100">Conversations</h3>
                     <div className="space-y-1">
                         {conversations.map((conv) => (
                             <div
                                 key={conv.id}
-                                className={`p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg cursor-pointer text-sm dark:text-white truncate`}
+                                className={`p-2 hover:bg-foreground-300 dark:hover:bg-foreground-dark-500 rounded-lg cursor-pointer text-sm text-foreground-100 dark:text-foreground-dark-100 truncate`}
                                 onClick={() => onConversationClick(conv)}
                             >
                                 {conv.name}

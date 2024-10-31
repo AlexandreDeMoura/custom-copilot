@@ -11,6 +11,7 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { ChatMessage } from '@/components/chat/ChatMessage';
 import { Sidebar } from '@/components/sidebar/Sidebar';
+import { ChatInput } from '@/components/ui/chat-input';
 
 export default function ConversationPage({ params }: { params: Promise<{ id: string }> }) {
     const resolvedParams = use(params); // Unwrap the params promise
@@ -115,13 +116,6 @@ export default function ConversationPage({ params }: { params: Promise<{ id: str
         }
     };
 
-    const handleKeyDown = (e: React.KeyboardEvent) => {
-        if (e.key === 'Enter' && !e.shiftKey) {
-            e.preventDefault();
-            handleSubmit();
-        }
-    };
-
     const handleConversationClick = (conversation: Conversation) => {
         router.push(`/c/${conversation.id}`);
     };
@@ -130,33 +124,26 @@ export default function ConversationPage({ params }: { params: Promise<{ id: str
         <div className="flex h-screen">
             <Sidebar onConversationClick={handleConversationClick} />
 
-            {/* Main chat area - wrapped in a container */}
-            <div className="flex-1 flex flex-col h-screen max-h-screen">
-                {/* Chat messages */}
-                <div className="flex-1 overflow-y-auto p-4">
-                    {messages.map((message, index) => (
-                        <ChatMessage key={index} message={message} />
-                    ))}
-                    <div ref={messagesEndRef} />
-                </div>
+            {/* Centering container */}
+            <div className="flex-1 flex justify-center bg-background dark:bg-background-dark">
+                {/* Main chat area - constrained to 70% width */}
+                <div className="w-[70%] flex flex-col h-screen max-h-screen">
+                    {/* Chat messages */}
+                    <div className="flex-1 overflow-y-auto p-4">
+                        {messages.map((message, index) => (
+                            <ChatMessage key={index} message={message} />
+                        ))}
+                        <div ref={messagesEndRef} />
+                    </div>
 
-                {/* Input area */}
-                <div className="border-t p-4">
-                    <div className="flex gap-2">
-                        <Textarea
-                            value={input}
-                            onChange={(e) => setInput(e.target.value)}
-                            onKeyDown={handleKeyDown}
-                            placeholder="Type your message..."
-                            className="flex-1"
-                            rows={1}
+                    {/* Input area */}
+                    <div className="border-t p-4">
+                        <ChatInput
+                            input={input}
+                            onInputChange={setInput}
+                            onSubmit={handleSubmit}
+                            isLoading={isLoading}
                         />
-                        <Button
-                            onClick={handleSubmit}
-                            disabled={isLoading || !input.trim()}
-                        >
-                            Send
-                        </Button>
                     </div>
                 </div>
             </div>

@@ -7,6 +7,7 @@ import { createMessage } from '@/db/messages';
 import { Conversation } from '../../supabase/types';
 import { useRouter } from 'next/navigation';
 import { Sidebar } from '@/components/sidebar/Sidebar';
+import { ChatInput } from '@/components/ui/chat-input';
 
 export default function Home() {
   const { theme, toggleTheme } = useTheme();
@@ -91,49 +92,20 @@ export default function Home() {
       />
 
       {/* Main Content */}
-      <main className="flex-1 flex flex-col bg-white dark:bg-gray-800">
-        <div className="flex-1 p-4 overflow-y-auto">
-          <div className="max-w-3xl mx-auto text-center mt-32">
-            <h1 className="text-4xl font-bold mb-8 dark:text-white">What can I help with?</h1>
-
-            {/* Action Buttons */}
-            <div className="flex flex-wrap justify-center gap-4">
-              <button className="px-4 py-2 border rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 dark:border-gray-700 dark:text-white">
-                Create image
-              </button>
-              <button className="px-4 py-2 border rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 dark:border-gray-700 dark:text-white">
-                Code
-              </button>
-              <button className="px-4 py-2 border rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 dark:border-gray-700 dark:text-white">
-                Make a plan
-              </button>
-              <button className="px-4 py-2 border rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 dark:border-gray-700 dark:text-white">
-                Analyze data
-              </button>
-            </div>
+      <main className="flex-1 flex flex-col bg-background dark:bg-background-dark">
+        <div className="flex-1 p-4 overflow-y-auto flex flex-col justify-center">
+          <div className="max-w-3xl mx-auto text-center">
+            <h1 className="text-4xl font-bold mb-8 text-foreground-100 dark:text-foreground-dark-100">What can I help with?</h1>
           </div>
 
           {/* Input Area */}
-          <div className="border-t dark:border-gray-700 p-4">
+          <div className="p-4">
             <div className="max-w-3xl mx-auto">
-              <div className="flex items-center gap-2 p-2 border dark:border-gray-700 rounded-lg dark:bg-gray-700">
-                <input
-                  type="text"
-                  value={input}
-                  onChange={(e) => setInput(e.target.value)}
-                  onKeyPress={(e) => e.key === 'Enter' && handleSubmit()}
-                  placeholder="Message ChatGPT"
-                  className="flex-1 outline-none bg-transparent dark:text-white"
-                />
-                <button
-                  onClick={handleSubmit}
-                  className="p-2 hover:bg-gray-100 dark:hover:bg-gray-600 rounded-full"
-                >
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                  </svg>
-                </button>
-              </div>
+              <ChatInput
+                input={input}
+                onInputChange={setInput}
+                onSubmit={handleSubmit}
+              />
             </div>
           </div>
         </div>

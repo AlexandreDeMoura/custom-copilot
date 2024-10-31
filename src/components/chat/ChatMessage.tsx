@@ -1,4 +1,5 @@
-import { Message } from '../../../supabase/types'
+import { IconRobot } from '@tabler/icons-react'; // or any other icon library you prefer
+import clsx from 'clsx';
 
 interface ChatMessageProps {
     message: any
@@ -6,13 +7,23 @@ interface ChatMessageProps {
 
 export function ChatMessage({ message }: ChatMessageProps) {
     return (
-        <div
-            className={`p-4 rounded-lg mb-4 max-w-[80%] ${message.role === 'user'
-                ? 'bg-blue-100 dark:bg-blue-900 ml-auto'
-                : 'bg-gray-100 dark:bg-gray-700'
-                }`}
-        >
-            {message.content}
+        <div className={clsx(
+            'flex items-start gap-2 mb-4',
+            message.role === 'user' && 'justify-end'
+        )}>
+            {message.role === 'assistant' && (
+                <div className="w-6 h-6 mt-1 flex-shrink-0 translate-y-[50%]">
+                    <IconRobot className="w-full h-full text-foreground-500 dark:text-foreground-dark-300" />
+                </div>
+            )}
+            <div className={clsx(
+                'p-4 max-w-[80%] text-foreground-100 dark:text-foreground-dark-100',
+                message.role === 'user'
+                    ? 'bg-foreground-300 dark:bg-foreground-500 rounded-3xl'
+                    : ''
+            )}>
+                {message.content}
+            </div>
         </div>
     )
 }
