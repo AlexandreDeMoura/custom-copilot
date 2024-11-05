@@ -10,7 +10,6 @@ import { Sidebar } from '@/components/sidebar/Sidebar';
 import { ChatInput } from '@/components/ui/chat-input';
 
 export default function Home() {
-  const { theme, toggleTheme } = useTheme();
   const [input, setInput] = useState('');
   const router = useRouter();
 
