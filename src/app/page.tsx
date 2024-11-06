@@ -1,8 +1,7 @@
 "use client";
 
-import { useTheme } from '@/context/ThemeContext';
-import { useState, useEffect } from 'react';
-import { getConversations, createConversation } from '@/db/conversations';
+import { useState } from 'react';
+import { createConversation } from '@/db/conversations';
 import { createMessage } from '@/db/messages';
 import { Conversation } from '../../supabase/types';
 import { useRouter } from 'next/navigation';

@@ -1,14 +1,12 @@
 "use client";
 
 import { useEffect, useRef } from 'react';
-import { use } from 'react'; // Add this import
+import { use } from 'react';
 import { useRouter } from 'next/navigation';
 import { getMessages, createMessage, updateMessage } from '@/db/messages';
 import { getConversation } from '@/db/conversations';
 import { useState } from 'react';
 import { Conversation, Message } from '../../../../supabase/types';
-import { Button } from "@/components/ui/button";
-import { Textarea } from "@/components/ui/textarea";
 import { ChatMessage } from '@/components/chat/ChatMessage';
 import { Sidebar } from '@/components/sidebar/Sidebar';
 import { ChatInput } from '@/components/ui/chat-input';

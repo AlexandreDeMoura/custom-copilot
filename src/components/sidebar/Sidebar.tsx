@@ -11,7 +11,6 @@ interface SidebarProps {
     onConversationClick: (conversation: Conversation) => void;
 }
 
-// Add this form action type
 type FormState = {
     message: string;
     status: 'error' | 'success' | 'idle';
