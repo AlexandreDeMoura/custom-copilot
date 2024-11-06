@@ -1,5 +1,6 @@
 import { IconRobot } from '@tabler/icons-react';
 import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 import clsx from 'clsx';
 
 interface ChatMessageProps {
@@ -23,7 +24,7 @@ export function ChatMessage({ message }: ChatMessageProps) {
                     ? 'bg-foreground-300 dark:bg-foreground-500 rounded-3xl'
                     : ''
             )}>
-                <ReactMarkdown>{message.content}</ReactMarkdown>
+                <ReactMarkdown remarkPlugins={[remarkGfm]}>{message.content}</ReactMarkdown>
             </div>
         </div>
     )

@@ -64,15 +64,15 @@ export default function ConversationPage({ params }: { params: Promise<{ id: str
             setMessages(prev => [...prev, userMessage]);
             setInput('');
 
-            // Prepare AI message with empty content
+            // Create initial AI message
             const aiMessage = await createMessage({
                 conversation_id: conversation.id,
-                content: "",
+                content: '',
                 role: 'assistant'
             });
             setMessages(prev => [...prev, aiMessage]);
 
-            // Fetch AI response as a stream
+            // Stream the AI response
             const response = await fetch('/api/chat/openai', {
                 method: 'POST',
                 headers: {
@@ -80,36 +80,40 @@ export default function ConversationPage({ params }: { params: Promise<{ id: str
                 },
                 body: JSON.stringify({
                     messages: [...messages, userMessage],
-                    model: 'gpt-4',
-                    temperature: 0.7,
+                    model: conversation.model,
+                    temperature: conversation.temperature,
                 }),
             });
 
-            if (!response.ok || !response.body) {
+            if (!response.ok) {
                 throw new Error('Failed to fetch AI response');
             }
 
-            const reader = response.body.getReader();
-            const decoder = new TextDecoder('utf-8');
-            let done = false;
-            let aiContent = '';
+            let accumulatedContent = '';
+            const reader = response.body?.getReader();
+            const decoder = new TextDecoder();
 
-            while (!done) {
-                const { value, done: doneReading } = await reader.read();
-                done = doneReading;
-                if (value) {
-                    const chunk = decoder.decode(value, { stream: true });
-                    aiContent += chunk;
-                    // Update the AI message with the new content
-                    setMessages(prevMessages => prevMessages.map(msg =>
-                        msg.id === aiMessage.id ? { ...msg, content: aiContent } : msg
-                    ));
-                }
+            while (reader) {
+                const { value, done } = await reader.read();
+                if (done) break;
+
+                const chunk = decoder.decode(value);
+                accumulatedContent += chunk;
+
+                // Update the AI message in real-time
+                setMessages(prevMessages =>
+                    prevMessages.map(msg =>
+                        msg.id === aiMessage.id
+                            ? { ...msg, content: accumulatedContent }
+                            : msg
+                    )
+                );
             }
 
-            // Update the AI message in the database with the complete response
-            await updateMessage(aiMessage.id, { content: aiContent });
-        } catch (error: any) {
+            // Update the final message in the database
+            await updateMessage(aiMessage.id, { content: accumulatedContent });
+
+        } catch (error) {
             console.error('Error sending message:', error);
         } finally {
             setIsLoading(false);
